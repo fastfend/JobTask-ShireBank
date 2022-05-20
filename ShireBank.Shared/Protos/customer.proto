@@ -1,0 +1,66 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ShireBank.Shared";
+
+package ShireBank.Shared.Customers;
+
+import "google/protobuf/wrappers.proto";
+
+service Customers {
+  rpc OpenAccount (OpenAccountRequest)
+	returns (OpenAccountReply);
+
+  rpc Withdraw (WithdrawRequest)
+	returns (WithdrawReply);
+
+  rpc Deposit (DepositRequest)
+	returns (DepositReply);
+
+  rpc GetHistory (HistoryRequest)
+	returns (HistoryReply);
+
+  rpc CloseAccount (CloseAccountRequest)
+	returns (CloseAccountReply);
+}
+
+message OpenAccountRequest {
+  string firstName = 1;
+  string lastName = 2;
+  float debtLimit = 3;
+}
+
+message OpenAccountReply {
+  google.protobuf.UInt32Value account = 1;
+}
+
+message WithdrawRequest {
+  uint32 account = 1;
+  float amount = 2;
+}
+
+message WithdrawReply {
+  float value = 1;
+}
+
+message DepositRequest {
+  uint32 account = 1;
+  float amount = 2;
+}
+
+message DepositReply {}
+
+message HistoryRequest {
+  uint32 account = 1;
+}
+
+message HistoryReply {
+  string history = 1;
+}
+
+message CloseAccountRequest {
+  uint32 account = 1;
+}
+
+message CloseAccountReply {
+  bool status = 1;
+}

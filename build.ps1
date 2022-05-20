@@ -1,0 +1,4 @@
+# * Create a PowerShell script that builds the solution into self-contained, single-file and trimmed binaries.
+dotnet publish ./ShireBank.Client/ShireBank.Client.csproj -a x64 -c Release -o ./out/client --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
+dotnet publish ./ShireBank.Server/ShireBank.Server.csproj -a x64 -c Release -o ./out/server --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
+dotnet publish ./ShireBank.Inspector/ShireBank.Inspector.csproj -a x64 -c Release -o ./out/inspector --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true

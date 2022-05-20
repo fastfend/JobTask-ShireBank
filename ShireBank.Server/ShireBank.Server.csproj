@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+		<ProjectReference Include="../ShireBank.Shared/ShireBank.Shared.csproj" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf ProtoRoot=".." Include="..\ShireBank.Shared\Protos\customer.proto" Link="Protos\customer.proto" GrpcServices="Server" ProtoCompile="False" />
+		<Protobuf ProtoRoot=".." Include="..\ShireBank.Shared\Protos\inspector.proto" Link="Protos\inspector.proto" GrpcServices="Server" ProtoCompile="False" />
+	</ItemGroup>
+
+	<ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.46.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
+      <PackageReference Include="NLog" Version="5.0.0" />
+      <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
+    </ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="nlog.config">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+	</ItemGroup>
+
+</Project>

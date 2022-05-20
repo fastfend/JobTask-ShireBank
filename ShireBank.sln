@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShireBank.Client", "ShireBank.Client\ShireBank.Client.csproj", "{6A2F46CE-A5D5-4C4E-B63F-C6E0B55D749F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShireBank.Shared", "ShireBank.Shared\ShireBank.Shared.csproj", "{B7A1C1F8-7A7F-4E4A-8E38-B36A103F885D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{F1859B5E-F745-4010-B572-E93658BDC6E5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShireBank.Inspector", "ShireBank.Inspector\ShireBank.Inspector.csproj", "{646E08F5-C502-49FC-9025-6548B2396DC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShireBank.Server", "ShireBank.Server\ShireBank.Server.csproj", "{060451C5-FD21-42A3-B4F2-6B7D6430000A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank.Shared.Tests", "ShireBank.Shared.Tests\ShireBank.Shared.Tests.csproj", "{49AFA39C-9433-40E2-B8A6-7B685FFB587D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A2F46CE-A5D5-4C4E-B63F-C6E0B55D749F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2F46CE-A5D5-4C4E-B63F-C6E0B55D749F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2F46CE-A5D5-4C4E-B63F-C6E0B55D749F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2F46CE-A5D5-4C4E-B63F-C6E0B55D749F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7A1C1F8-7A7F-4E4A-8E38-B36A103F885D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7A1C1F8-7A7F-4E4A-8E38-B36A103F885D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7A1C1F8-7A7F-4E4A-8E38-B36A103F885D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7A1C1F8-7A7F-4E4A-8E38-B36A103F885D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646E08F5-C502-49FC-9025-6548B2396DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646E08F5-C502-49FC-9025-6548B2396DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646E08F5-C502-49FC-9025-6548B2396DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646E08F5-C502-49FC-9025-6548B2396DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060451C5-FD21-42A3-B4F2-6B7D6430000A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060451C5-FD21-42A3-B4F2-6B7D6430000A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060451C5-FD21-42A3-B4F2-6B7D6430000A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060451C5-FD21-42A3-B4F2-6B7D6430000A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49AFA39C-9433-40E2-B8A6-7B685FFB587D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49AFA39C-9433-40E2-B8A6-7B685FFB587D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49AFA39C-9433-40E2-B8A6-7B685FFB587D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49AFA39C-9433-40E2-B8A6-7B685FFB587D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B77C8E9D-FA7A-4FA4-AFE8-22BA87A2F5E6}
+	EndGlobalSection
+EndGlobal
