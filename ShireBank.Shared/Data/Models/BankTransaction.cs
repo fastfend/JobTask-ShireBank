@@ -1,33 +1,32 @@
 ﻿using System;
 
-namespace ShireBank.Shared.Data.Models
+namespace ShireBank.Shared.Data.Models;
+
+public class BankTransaction
 {
-    public class BankTransaction
+    public BankTransaction(BankAccount account, float value) : this(value)
     {
-        public Guid TransactionId { get; private set; }
+        ArgumentNullException.ThrowIfNull(account);
+        Account = account;
+    }
 
-        public DateTime CreatedAt { get; private set; }
+    private BankTransaction(float value)
+    {
+        Value = value;
+    }
 
-        public BankAccount Account { get; private set; }
-        
-        public float Value { get; private set; }
+    public Guid TransactionId { get; private set; }
 
-        public byte[] Timestamp { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
-        public BankTransaction(BankAccount account, float value) : this(value)
-        {
-            ArgumentNullException.ThrowIfNull(account);
-            Account = account;
-        }
+    public BankAccount Account { get; }
 
-        private BankTransaction(float value)
-        {
-            Value = value;
-        }
+    public float Value { get; }
 
-        public override string ToString()
-        {
-            return $"Transaction {TransactionId} at {CreatedAt} for {Value}";
-        }
+    public byte[] Timestamp { get; private set; }
+
+    public override string ToString()
+    {
+        return $"Transaction {TransactionId} at {CreatedAt} for {Value}";
     }
 }

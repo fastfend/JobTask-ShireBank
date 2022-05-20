@@ -7,69 +7,65 @@ using ShireBank.Shared.Data.Models;
 using ShireBank.Shared.Data.Repositories;
 using Xunit;
 
-namespace ShireBank.Shared.Tests
+namespace ShireBank.Shared.Tests;
+
+public class BankAccountRepositoryTests
 {
-    public class BankAccountRepositoryTests
+    [Fact]
+    public async void AddingAccountWorks()
     {
-        [Fact]
-        public async void AddingAccountWorks()
+        var _connection = new SqliteConnection("Filename=:memory:");
+        _connection.Open();
+
+        // These options will be used by the context instances in this test suite, including the connection opened above.
+        var _contextOptions = new DbContextOptionsBuilder<BankDbContext>()
+            .UseSqlite(_connection)
+            .Options;
+
+        using var context = new BankDbContext(_contextOptions);
+
+        var repository = new BankAccountRepository(context, Mock.Of<ILogger<BankAccountRepository>>());
+
+        var account = new BankAccount
         {
-            var _connection = new SqliteConnection("Filename=:memory:");
-            _connection.Open();
+            FirstName = "John",
+            LastName = "Smith",
+            DebtLimit = 100.0f
+        };
 
-            // These options will be used by the context instances in this test suite, including the connection opened above.
-            var _contextOptions = new DbContextOptionsBuilder<BankDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+        await repository.Open(account);
 
-            using var context = new BankDbContext(_contextOptions);
+        var createdAccount = await repository.GetById(account.AccountId);
 
-            var repository = new BankAccountRepository(context, Mock.Of<ILogger<BankAccountRepository>>());
+        Assert.NotNull(createdAccount);
+    }
 
-            var account = new BankAccount()
-            {
-                FirstName = "John",
-                LastName = "Smith",
-                DebtLimit = 100.0f
-            };
+    [Fact]
+    public async void AddingSameAccountBl()
+    {
+        var _connection = new SqliteConnection("Filename=:memory:");
+        _connection.Open();
 
-            await repository.Open(account);
+        // These options will be used by the context instances in this test suite, including the connection opened above.
+        var _contextOptions = new DbContextOptionsBuilder<BankDbContext>()
+            .UseSqlite(_connection)
+            .Options;
 
-            var createdAccount = await repository.GetById(account.AccountId);
-            
-            Assert.NotNull(createdAccount);
-        }
+        using var context = new BankDbContext(_contextOptions);
 
-        [Fact]
-        public async void AddingSameAccountBl()
+        var repository = new BankAccountRepository(context, Mock.Of<ILogger<BankAccountRepository>>());
+
+        var account = new BankAccount
         {
-            var _connection = new SqliteConnection("Filename=:memory:");
-            _connection.Open();
+            FirstName = "John",
+            LastName = "Smith",
+            DebtLimit = 100.0f
+        };
 
-            // These options will be used by the context instances in this test suite, including the connection opened above.
-            var _contextOptions = new DbContextOptionsBuilder<BankDbContext>()
-                .UseSqlite(_connection)
-                .Options;
+        await repository.Open(account);
 
-            using var context = new BankDbContext(_contextOptions);
+        var createdAccount = await repository.GetById(account.AccountId);
 
-            var repository = new BankAccountRepository(context, Mock.Of<ILogger<BankAccountRepository>>());
-
-            var account = new BankAccount()
-            {
-                FirstName = "John",
-                LastName = "Smith",
-                DebtLimit = 100.0f
-            };
-
-            await repository.Open(account);
-
-            var createdAccount = await repository.GetById(account.AccountId);
-
-            await Assert.ThrowsAsync<DbUpdateException>(async () =>
-            {
-                await repository.Open(account);
-            });
-        }
+        await Assert.ThrowsAsync<DbUpdateException>(async () => { await repository.Open(account); });
     }
 }

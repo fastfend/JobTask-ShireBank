@@ -1,10 +1,6 @@
-﻿namespace ShireBank.Shared
-{
-    public class Constants
-    {
-        public const string BankBaseAddress = "http://localhost:6999";
-        public const string ServiceName = "ShireBank";
+﻿namespace ShireBank.Shared;
 
-        public static string FullBankAddress => BankBaseAddress + "/" + ServiceName;
-    }
+public static class Constants
+{
+    public const string BankBaseAddress = "http://localhost:6999";
 }

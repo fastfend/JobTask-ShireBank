@@ -4,8 +4,6 @@ option csharp_namespace = "ShireBank.Shared";
 
 package ShireBank.Shared.Inspector;
 
-import "google/protobuf/wrappers.proto";
-
 service Inspector {
   rpc GetFullSummary (GetFullSummaryRequest)
 	returns (stream GetFullSummaryReply);

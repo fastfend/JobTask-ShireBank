@@ -1,8 +1,11 @@
-﻿namespace ShireBank.Server.Events
+﻿namespace ShireBank.Server.Events;
+
+public class InspectionEventArgs
 {
-    public class InspectionEventArgs
+    public InspectionEventArgs(object inspected)
     {
-        public InspectionEventArgs(object inspected) { Inspected = inspected; }
-        public object Inspected { get; }
+        Inspected = inspected;
     }
+
+    public object Inspected { get; }
 }

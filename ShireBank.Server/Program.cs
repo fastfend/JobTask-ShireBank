@@ -1,60 +1,55 @@
-﻿
-using Microsoft.AspNetCore.Builder;
+﻿using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Web;
-using System;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Threading;
+using ShireBank.Shared;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace ShireBank.Server
+namespace ShireBank.Server;
+
+internal class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var logger = LogManager
+            .Setup()
+            .LoadConfigurationFromAppSettings()
+            .GetCurrentClassLogger();
+
+        try
         {
-            var logger = LogManager
-                .Setup()
-                .LoadConfigurationFromAppSettings()
-                .GetCurrentClassLogger();
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile("appsettings.dev.json", true)
+                .Build();
 
-            try
-            {
-                var config = new ConfigurationBuilder()
-                    .AddCommandLine(args)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .AddJsonFile("appsettings.dev.json", optional: true)
-                    .Build();
+            var host = new WebHostBuilder()
+                .UseKestrel(options => { options.ConfigureEndpointDefaults(lo => lo.Protocols = HttpProtocols.Http2); })
+                .UseUrls(Constants.BankBaseAddress)
+                .UseConfiguration(config)
+                .UseNLog()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                .UseStartup<Startup>()
+                .Build();
 
-                var host = new WebHostBuilder()
-                    .UseKestrel(options =>
-                    {
-                        options.ConfigureEndpointDefaults(lo => lo.Protocols = HttpProtocols.Http2);
-                    })
-                    .UseUrls(Shared.Constants.BankBaseAddress)
-                    .UseConfiguration(config)
-                    .UseNLog()
-                    .ConfigureLogging(logging =>
-                    {
-                        logging.ClearProviders();
-                        logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    })
-                    .UseStartup<Startup>()
-                    .Build();
-
-                host.Run();
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                LogManager.Shutdown();
-            }
+            host.Run();
+        }
+        catch (Exception e)
+        {
+            logger.Error(e, "Stopped program because of exception");
+            throw;
+        }
+        finally
+        {
+            LogManager.Shutdown();
         }
     }
 }
