@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using ShireBank.Shared;
 using ShireBank.Shared.Protos;
+using System;
+using System.Threading.Tasks;
 
 namespace ShireBank.Server.Services;
 

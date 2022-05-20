@@ -1,13 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Grpc.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using ShireBank.Shared;
-using ShireBank.Shared.Data.Models;
 using ShireBank.Shared.Data.Repositories;
 using ShireBank.Shared.Protos;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShireBank.Server.Services;
 

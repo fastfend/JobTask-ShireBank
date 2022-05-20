@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ShireBank.Shared.Data.Models;
 using ShireBank.Shared.Utils.Sqlite;
 
