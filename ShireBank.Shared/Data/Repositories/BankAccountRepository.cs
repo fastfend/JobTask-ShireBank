@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -24,10 +25,28 @@ public class BankAccountRepository : IBankAccountRepository, IDisposable
         return _context.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
     }
 
-    public async Task Open(BankAccount account)
+    public async Task<BankAccount> Open(string firstName, string lastName, decimal debtLimit)
     {
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+
+        var exits = await _context.Accounts
+            .Where(a => a.FirstName == firstName && a.LastName == lastName)
+            .AnyAsync();
+
+        if (exits) return null;
+
+        var account = new BankAccount
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            DebtLimit = debtLimit
+        };
+
         _context.Accounts.Add(account);
         await _context.SaveChangesAsync();
+        await transaction.CommitAsync();
+
+        return account;
     }
 
     public async Task<bool> Close(uint accountId)
@@ -49,13 +68,13 @@ public class BankAccountRepository : IBankAccountRepository, IDisposable
         }
     }
 
-    public async Task<float> Withdraw(uint accountId, float amount)
+    public async Task<decimal> Withdraw(uint accountId, decimal amount)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
 
         var account = await _context.Accounts.FindAsync(accountId);
 
-        var maxAmount = Math.Clamp(amount, float.MinValue, account.Balance + account.DebtLimit);
+        var maxAmount = Math.Clamp(amount, decimal.MinValue, account.Balance + account.DebtLimit);
         account.Balance -= maxAmount;
 
         await _context.SaveChangesAsync();
@@ -64,7 +83,7 @@ public class BankAccountRepository : IBankAccountRepository, IDisposable
         return maxAmount;
     }
 
-    public async Task Deposit(uint accountId, float amount)
+    public async Task Deposit(uint accountId, decimal amount)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -84,9 +103,8 @@ public class BankAccountRepository : IBankAccountRepository, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposed)
-            if (disposing)
-                _context.Dispose();
+        if (!disposed && disposing)
+            _context.Dispose();
         disposed = true;
     }
 }

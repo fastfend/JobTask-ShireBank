@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ShireBank.Shared.Data.Models;
+using ShireBank.Shared.Utils.Sqlite;
 
 namespace ShireBank.Shared.Data;
 
@@ -41,15 +42,15 @@ public class BankDbContext : DbContext
 
         modelBuilder.Entity<BankAccount>()
             .Property(a => a.Timestamp)
-            .IsRowVersion()
-            .HasConversion(new SqliteTimestampConverter())
-            .HasColumnType("BLOB")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .IsRowVersion();
 
         modelBuilder.Entity<BankAccount>()
             .HasAlternateKey(a => new { a.FirstName, a.LastName });
 
         // Transaction
+        modelBuilder.Entity<BankTransaction>()
+            .ToTable("Transactions");
+
         modelBuilder.Entity<BankTransaction>()
             .HasKey(t => t.TransactionId);
 
@@ -64,14 +65,13 @@ public class BankDbContext : DbContext
 
         modelBuilder.Entity<BankTransaction>()
             .Property(t => t.CreatedAt)
-            .HasDefaultValue(DateTime.Now)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .IsRequired();
 
         modelBuilder.Entity<BankTransaction>()
             .Property(t => t.Timestamp)
-            .IsRowVersion()
-            .HasConversion(new SqliteTimestampConverter())
-            .HasColumnType("BLOB")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            .IsRowVersion();
+
+        modelBuilder.AddSqliteCompatibility(this);
     }
 }

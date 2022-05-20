@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using ShireBank.Shared;
+using ShireBank.Shared.Protos;
 
 namespace ShireBank.Server.Services;
 
@@ -26,7 +27,7 @@ internal class InspectorService : Inspector.InspectorBase
         try
         {
             await foreach (var data in _inspectionStateService.InspectionReader.ReadAllAsync(context.CancellationToken))
-                await responseStream.WriteAsync(new GetFullSummaryReply { Summary = $"{data.GetType().Name}: {data}" });
+                await responseStream.WriteAsync(new GetFullSummaryReply { Summary = data.GetSummary() });
         }
         catch (OperationCanceledException)
         {
@@ -37,6 +38,9 @@ internal class InspectorService : Inspector.InspectorBase
     public override Task<StartInspectionReply> StartInspection(StartInspectionRequest request,
         ServerCallContext context)
     {
+        if (_inspectionStateService.IsInspectionEnabled())
+            throw new RpcException(new Status(StatusCode.Aborted, "System is already under inspection"));
+
         _inspectionStateService.StartInspection();
         return Task.FromResult(new StartInspectionReply());
     }
@@ -44,6 +48,9 @@ internal class InspectorService : Inspector.InspectorBase
     public override Task<FinishInspectionReply> FinishInspection(FinishInspectionRequest request,
         ServerCallContext context)
     {
+        if (!_inspectionStateService.IsInspectionEnabled())
+            throw new RpcException(new Status(StatusCode.Aborted, "System is not under inspection"));
+
         _inspectionStateService.StopInspection();
         return Task.FromResult(new FinishInspectionReply());
     }

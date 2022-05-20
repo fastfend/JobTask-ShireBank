@@ -1,10 +1,11 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "ShireBank.Shared";
+option csharp_namespace = "ShireBank.Shared.Protos";
 
-package ShireBank.Shared.Customers;
+package ShireBank.Shared.Protos;
 
 import "google/protobuf/wrappers.proto";
+import "decimal.proto";
 
 service Customers {
   rpc OpenAccount (OpenAccountRequest)
@@ -26,7 +27,7 @@ service Customers {
 message OpenAccountRequest {
   string firstName = 1;
   string lastName = 2;
-  float debtLimit = 3;
+  ShireBank.Shared.Types.DecimalValue debtLimit = 3;
 }
 
 message OpenAccountReply {
@@ -35,16 +36,16 @@ message OpenAccountReply {
 
 message WithdrawRequest {
   uint32 account = 1;
-  float amount = 2;
+  ShireBank.Shared.Types.DecimalValue amount = 2;
 }
 
 message WithdrawReply {
-  float value = 1;
+  ShireBank.Shared.Types.DecimalValue value = 1;
 }
 
 message DepositRequest {
   uint32 account = 1;
-  float amount = 2;
+  ShireBank.Shared.Types.DecimalValue amount = 2;
 }
 
 message DepositReply {}

@@ -361,3 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+build/appsettings.json
+build/aspnetcorev2_inprocess.dll
+build/e_sqlite3.dll
+build/nlog.config
+build/ShireBank.Client.exe
+build/ShireBank.Inspector.exe
+build/ShireBank.Server.exe

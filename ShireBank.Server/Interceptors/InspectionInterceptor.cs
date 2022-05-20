@@ -4,10 +4,14 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.Extensions.Logging;
 using ShireBank.Server.Services;
-using ShireBank.Shared;
+using ShireBank.Shared.Data.Interfaces;
+using ShireBank.Shared.Protos;
 
 namespace ShireBank.Server.Interceptors;
 
+/// <summary>
+/// Intercepts gRPC client calls for further inspection
+/// </summary>
 internal class InspectionInterceptor : Interceptor
 {
     private readonly InspectionStateService _inspectionStateService;
@@ -28,10 +32,18 @@ internal class InspectionInterceptor : Interceptor
         {
             var requestType = request.GetType();
 
-            if (requestType != typeof(FinishInspectionRequest) &&
-                requestType != typeof(StartInspectionRequest))
-                await _inspectionStateService.TryInspect(request, context.CancellationToken);
-
+            if (requestType != typeof(FinishInspectionRequest) && requestType != typeof(StartInspectionRequest))
+            {
+                if (request is IInspectable inspectable)
+                {
+                    await _inspectionStateService.TryInspect(inspectable, context.CancellationToken);
+                }
+                else
+                {
+                    _logger.LogError($"Tried to inspect incompatible message of type {requestType} with data {request}");
+                }
+            }
+            
             return await continuation(request, context);
         }
         catch (Exception ex)

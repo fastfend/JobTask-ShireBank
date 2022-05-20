@@ -1,8 +1,8 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "ShireBank.Shared";
+option csharp_namespace = "ShireBank.Shared.Protos";
 
-package ShireBank.Shared.Inspector;
+package ShireBank.Shared.Protos;
 
 service Inspector {
   rpc GetFullSummary (GetFullSummaryRequest)

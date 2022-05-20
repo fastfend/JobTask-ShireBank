@@ -23,13 +23,13 @@ namespace ShireBank.Shared.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<float>("Balance")
+                    b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("REAL")
-                        .HasDefaultValue(0f);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue(0m);
 
-                    b.Property<float>("DebtLimit")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("DebtLimit")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -64,7 +64,7 @@ namespace ShireBank.Shared.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 5, 19, 20, 24, 14, 753, DateTimeKind.Local).AddTicks(1160));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Timestamp")
                         .IsConcurrencyToken()
@@ -72,14 +72,14 @@ namespace ShireBank.Shared.Migrations
                         .HasColumnType("BLOB")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<float>("Value")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("Value")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("TransactionId");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("ShireBank.Shared.Data.Models.BankTransaction", b =>

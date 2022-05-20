@@ -28,7 +28,6 @@ internal class Startup
 
         services.AddGrpc(o =>
         {
-            o.EnableDetailedErrors = true;
             o.Interceptors.Add<InspectionInterceptor>();
         });
     }

@@ -17,7 +17,7 @@ public class BankTransactionRepository : IBankTransactionRepository, IDisposable
         _context = context;
     }
 
-    public async Task<BankTransaction> Create(uint accountId, float amount)
+    public async Task<BankTransaction> Create(uint accountId, decimal amount)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -46,9 +46,8 @@ public class BankTransactionRepository : IBankTransactionRepository, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposed)
-            if (disposing)
-                _context.Dispose();
+        if (!disposed && disposing)
+            _context.Dispose();
         disposed = true;
     }
 }

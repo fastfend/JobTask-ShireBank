@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +11,9 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ShireBank.Server;
 
-internal class Program
+internal static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var logger = LogManager
             .Setup()
@@ -40,7 +41,7 @@ internal class Program
                 .UseStartup<Startup>()
                 .Build();
 
-            host.Run();
+            await host.RunAsync();
         }
         catch (Exception e)
         {
